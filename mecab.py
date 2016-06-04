@@ -24,14 +24,19 @@ def wakati(text):
 
 # textを形態素解析して名詞・形容詞をリストに返す
 def extract_key_word(sake_name, sake_text):
+    """ 形態素解析をして名詞・形容詞のみをリストに抽出して返す
+    :param sake_name: 各単語の間に挟まる用の日本酒名
+    :param sake_text: 形態素解析対象テキスト
+    :return:
+    """
     keywords = []
     replace_text = sake_text.replace(u'。', u'\n')
     # MeCabの設定
     tagger = MeCab.Tagger('-Ochasen')
-    encode_text = replace_text.encode('utf-8', 'replace')
+    encode_text = replace_text.encode('utf-8', 'replace')  # MeCabの辞書コードにencode
     node = tagger.parseToNode(encode_text)
 
-    # 名詞と形容詞抽出
+    # 名詞と形容詞抽出しunicode型にdecode
     while node:
         pos = node.feature.split(",")[0]
         if pos == '名詞':
@@ -45,7 +50,6 @@ def extract_key_word(sake_name, sake_text):
     return keywords
 
 
-# 辞書を使って文字列を置換
 def multiple_replace(text, adict):
     """ 一度に複数のパターンを置換する関数
     - text中からディクショナリのキーに合致する文字列を探し、対応の値で置換して返す

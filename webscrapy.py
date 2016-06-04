@@ -27,10 +27,9 @@ def main():
         u'さわやか': u'爽やか',
         u'吟': u'純米吟醸',
 
-
         # 味わい表現
         u'(フルーティー|フルーティ|甘い|甘み|優しい|やさしい|柔らかい|甘口)': u'甘味',
-        u'(酸っぱい|酸|辛い|辛口|ドライ|キレ|からい|きれ|)': u'酸味',
+        # u'(酸っぱい|酸|辛い|辛口|ドライ|キレ|からい|きれ|)': u'酸味', #出力が変になるためいったんコメントアウト
         u'(まろやか|コク|穏やか|後味|濃い|旨|深い|滑らか)': u'旨味',
         u'(苦い|苦味|雑|にがみ|えぐみ|邪魔|ひどい|くどい)': u'雑味',
     }
@@ -48,26 +47,19 @@ def main():
         html_div = soup.find('div', {'id': 'maincontent'})  # メインコンテンツの取得
         texts = html_div.findAll('dd')  # メインコンテンツ内のレビューのみをスクレイピング
 
-        # text = text.find_next_siblings('dd')
-
         # スクレイピングしたレビュー処理
         for text in texts:
             text = text.text  # text形式(unicode)に変換
             # normResult = normalizeText(text) #不要な空白・改行等の処理
-            # レビュー処理
-            # strResult = wakatiText(text)
-            # print sakeName
-            # print text
 
-            str_wakati = mecab.extract_key_word(sake_name, text)
-            #wordCount.fileOutput(strWakati)
+            # 形態素解析処理
+            sake_wakati = mecab.extract_key_word(sake_name, text)
+            # wordCount.fileOutput(strWakati)
 
             # リストの内容を標準出力
-            # result = []
-            for w in str_wakati:
-                # print w,
-                # result.append(multiple_replace(w, adict)),
-                print mecab.multiple_replace(w, replace_dict),
+            result = []
+            for w in sake_wakati:
+                result.append(mecab.multiple_replace(w, replace_dict)),
             print ''
 
             time.sleep(2.0)  # 念のために2秒間のdelay
