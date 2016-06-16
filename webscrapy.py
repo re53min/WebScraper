@@ -57,9 +57,8 @@ def main():
             # wordCount.fileOutput(strWakati)
 
             # リストの内容を標準出力
-            result = []
             for w in sake_wakati:
-                result.append(mecab.multiple_replace(w, replace_dict)),
+                print mecab.multiple_replace(w, replace_dict),
             print ''
 
             time.sleep(2.0)  # 念のために2秒間のdelay
